@@ -58,7 +58,7 @@ const data = [
         <div class="product">
             <img src=${product.img} alt="">
             <span class="name">${product.name}</span>
-            <span class="priceText">${product.price}</span>
+            <span class="priceText">$${product.price}</span>
         </div>
         `
     ).join("")
@@ -111,4 +111,29 @@ const data = [
     })
 
 }
+//create a function to setup price range filter
+const setPrices = () => {
+  //extract price values from data
+const priceList = data.map(item => item.price)
+const minPrice = Math.min(...priceList);
+const maxPrice = Math.max(...priceList);
+
+//configure the range slider
+priceRange.min = minPrice;
+priceRange.max = maxPrice;
+priceRange.value = maxPrice;
+priceValue.textContent = "$" + maxPrice;
+
+
+//add an event listener to filter products based on price range
+priceRange.addEventListener("input", (e)=>{
+  priceValue.textContent = "$" + e.target.value//update displayed price value
+  displayProducts(data.filter(item =>item.price <= e.target.value))
+
+})
+
+
+}
+
+setPrices();
 setCategories();
